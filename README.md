@@ -32,7 +32,7 @@ The `wrangler.jsonc` config publishes Astro's static `dist/` directory. No Worke
 ### Custom domain (Dynadot registrar)
 
 1. In Cloudflare **Domains → Onboard a domain**, add `tylting.at` to the same account, on the Free plan. Review and preserve any existing DNS records you need.
-2. Cloudflare will assign **two account/zone-specific nameservers** on the `tylting.at` Overview page. At Dynadot choose **My Domains → Manage Domains → tylting.at → Action → DNS Settings → Name Servers**, enter those exact two nameservers and save. Do **not** copy nameservers from another Cloudflare domain.
+2. Cloudflare will assign **two account/zone-specific nameservers** on the `tylting.at` Overview page. If DNSSEC is already enabled for this domain at Dynadot, disable it before switching nameservers, then enable it again through Cloudflare after activation. At Dynadot choose **My Domains → Manage Domains → tylting.at → Action → DNS Settings → Name Servers**, enter those exact two nameservers and save. Do **not** copy nameservers from another Cloudflare domain.
 3. Wait until the Cloudflare `tylting.at` DNS zone is **Active**. Then open **Workers & Pages → tylting-at-windmills → Settings → Domains & Routes → Add → Custom Domain** and enter `tylting.at`. Cloudflare creates the necessary DNS record and TLS certificate automatically.
 4. Optionally add `www.tylting.at` as an additional custom domain and configure a redirect to the apex to avoid duplicate indexable hostnames.
 
