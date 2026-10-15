@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { publishedPosts } from '../../lib/posts';
+const posts = await publishedPosts();
+---
+<BaseLayout title="Writing" description="Essays and notes from Tylting at Windmills.">
+  <header class="page-header"><p class="eyebrow">Archive</p><h1>Writing</h1><p>Essays, research notes, and experiments.</p></header>
+  <PostList posts={posts} />
+</BaseLayout>

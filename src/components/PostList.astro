@@ -1,0 +1,23 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { postUrl } from '../lib/posts';
+interface Props {
+  posts: CollectionEntry<'writing'>[];
+}
+const { posts } = Astro.props;
+---
+{
+  posts.length === 0 ? (
+    <p class="empty-state">No posts published yet. A good place to begin.</p>
+  ) : (
+    <div class="post-list">
+      {posts.map((post) => (
+        <article class="post-item">
+          <p class="post-meta"><time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })}</time>{post.data.series === 'hctigt' && <span> · HCTiGT</span>}</p>
+          <h3><a href={postUrl(post.id)}>{post.data.title}</a></h3>
+          <p>{post.data.description}</p>
+        </article>
+      ))}
+    </div>
+  )
+}

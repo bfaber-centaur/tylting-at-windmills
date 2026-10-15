@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('writing', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+interface Props { post: CollectionEntry<'writing'>; }
+const { post } = Astro.props;
+const { Content } = await render(post);
+const date = post.data.pubDate.toLocaleDateString('en-US', { dateStyle: 'long', timeZone: 'UTC' });
+---
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <article class="article">
+    <header class="article-header">
+      <div class="post-meta"><time datetime={post.data.pubDate.toISOString()}>{date}</time>{post.data.series === 'hctigt' && <span> · <a href="/series/hctigt/">HCTiGT</a></span>}</div>
+      <h1>{post.data.title}</h1>
+      <p class="article-deck">{post.data.description}</p>
+    </header>
+    <div class="prose"><Content /></div>
+    {post.data.crosspostUrl && <p class="crosspost-note">Also published on <a href={post.data.crosspostUrl} rel="noopener noreferrer">LessWrong ↗</a>.</p>}
+    <div class="article-back"><a href="/writing/">← All writing</a></div>
+  </article>
+</BaseLayout>

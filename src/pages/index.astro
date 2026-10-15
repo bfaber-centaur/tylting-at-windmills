@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostList from '../components/PostList.astro';
+import { publishedPosts } from '../lib/posts';
+const posts = (await publishedPosts()).slice(0, 5);
+---
+<BaseLayout title="Tylting at Windmills" description="A personal home for research, writing, and experiments.">
+  <section class="hero">
+    <p class="eyebrow">Research notes · Essays · Experiments</p>
+    <h1>Tylting at<br /><em>Windmills.</em></h1>
+    <p class="hero-deck">A home for ideas worth investigating—and the occasional improbable charge.</p>
+  </section>
+  <section class="feature-card" aria-labelledby="series-title">
+    <div>
+      <p class="eyebrow">Featured series</p>
+      <h2 id="series-title">Hill Climb Till It's Go Time</h2>
+      <p>Notes on making progress in AI interpretability.</p>
+    </div>
+    <a class="text-link" href="/series/hctigt/">Explore the series <span aria-hidden="true">↗</span></a>
+  </section>
+  <section class="section-block" aria-labelledby="recent-title">
+    <div class="section-header"><h2 id="recent-title">Recent writing</h2><a href="/writing/">All writing →</a></div>
+    <PostList posts={posts} />
+  </section>
+</BaseLayout>
