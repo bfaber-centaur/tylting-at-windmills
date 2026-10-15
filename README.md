@@ -28,7 +28,7 @@ Cloudflare dashboard → Workers & Pages → Create application → Import a Git
 
 The `wrangler.jsonc` config declares the `./dist` static asset directory. No Worker script or Cloudflare Astro adapter is needed for this fully static blog.
 
-After the first deployment, update Cloudflare **build-time** variable `SITE_URL` to your real `https://<worker>.<subdomain>.workers.dev` URL (or your custom domain) and rebuild. The starter's `astro.config.mjs` fallback is a placeholder; `SITE_URL` is used for canonical URLs, RSS, and the sitemap.
+The site is deployed at **[https://tylting-at-windmills.bfaber.workers.dev](https://tylting-at-windmills.bfaber.workers.dev)**. Its canonical origin is configured in `astro.config.mjs`, and used for absolute article URLs, RSS, and the sitemap. If you add a custom domain later, set the Cloudflare **build-time** variable `SITE_URL` to the new HTTPS origin and redeploy.
 
 ## Site structure
 
