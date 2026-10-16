@@ -11,7 +11,9 @@ tags: [interpretability, experiments]
 
 *Hill Climb Till It's Go Time* is my series about finding my way into interpretability[^1]—and inviting you along. 
 
-"It's a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there's no knowing where you might be swept off to." Bilbo Baggins, LOTR, jrrt
+> It's a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there's no knowing where you might be swept off to.
+>
+> — Bilbo Baggins, *The Fellowship of the Ring* (J. R. R. Tolkien)
 
 <!-- Illustration to follow; intentionally omitted for the alpha. -->
 
