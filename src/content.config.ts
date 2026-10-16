@@ -12,6 +12,7 @@ const writing = defineCollection({
     updatedDate: z.coerce.date().optional(),
     draft: z.boolean().default(false),
     series: z.string().optional(),
+    seriesIntro: z.string().optional(),
     crosspostUrl: z.string().url().optional(),
     tags: z.array(z.string()).default([]),
   }),

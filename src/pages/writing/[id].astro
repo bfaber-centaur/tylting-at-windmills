@@ -15,7 +15,12 @@ const date = post.data.pubDate.toLocaleDateString('en-US', { dateStyle: 'long', 
 <BaseLayout title={post.data.title} description={post.data.description}>
   <article class="article">
     <header class="article-header">
-      <div class="post-meta"><time datetime={post.data.pubDate.toISOString()}>{date}</time>{post.data.series === 'hctigt' && <span> · <a href={sitePath('series/hctigt/')}>HCTiGT</a></span>}</div>
+      {post.data.series === 'hctigt' && (
+        <p class="article-series-preface">
+          <a href={sitePath('series/hctigt/')}>Hill Climb Till It's Go Time</a>{post.data.seriesIntro && <> {post.data.seriesIntro}</>}
+        </p>
+      )}
+      <div class="post-meta"><time datetime={post.data.pubDate.toISOString()}>{date}</time></div>
       <h1>{post.data.title}</h1>
       <p class="article-deck">{post.data.description}</p>
     </header>
