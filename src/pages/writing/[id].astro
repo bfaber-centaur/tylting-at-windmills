@@ -20,6 +20,9 @@ const date = post.data.pubDate.toLocaleDateString('en-US', { dateStyle: 'long', 
       <p class="article-deck">{post.data.description}</p>
     </header>
     <div class="prose"><Content /></div>
+    <script>
+      import '../../scripts/sidenotes.js';
+    </script>
     {post.data.crosspostUrl && <p class="crosspost-note">Also published on <a href={post.data.crosspostUrl} rel="noopener noreferrer">LessWrong ↗</a>.</p>}
     <div class="article-back"><a href={sitePath('writing/')}>← All writing</a></div>
   </article>

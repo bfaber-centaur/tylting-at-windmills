@@ -85,3 +85,39 @@ em { font-weight: 400; }
   .page-header, .article-header { padding-top: 54px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* LW-inspired marginalia: reuse semantic footnotes when the margin has room. */
+.prose { position: relative; }
+.margin-notes { display: none; }
+@media (min-width: 1280px) {
+  .margin-notes {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: calc(100% + 26px);
+    width: 238px;
+    pointer-events: none;
+  }
+  .margin-note {
+    position: absolute;
+    inset-inline: 0;
+    padding: 2px 0 8px 15px;
+    border-left: 2px solid var(--hairline);
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    overflow-wrap: anywhere;
+    pointer-events: auto;
+  }
+  .margin-note-number {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+  }
+  .prose .margin-note-text p { margin: 0 0 .55em; }
+  .prose .margin-note-text p:last-child { margin-bottom: 0; }
+  .margin-note.is-highlighted { border-left-color: var(--accent); color: var(--ink); }
+}

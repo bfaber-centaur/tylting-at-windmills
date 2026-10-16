@@ -57,6 +57,14 @@ assert article.count("data-footnote-backref") >= 3, "Missing return links"
 assert article.count("<sup") >= 3, "Footnote references should be superscripts"
 print("Footnotes: three linked references, definitions and back-links rendered.")
 
+# Footnote presentation enhancement is bundled without replacing the endnotes.
+bundled = "\\n".join(
+    p.read_text(encoding="utf-8") for p in (dist / "windmills/_astro").glob("*.js")
+)
+assert "margin-notes" in bundled, "No bundled sidenote enhancer"
+assert "data-footnote-ref" in bundled, "Missing sidenote reference selector"
+print("Desktop sidenote enhancer bundled; mobile endnotes remain intact.")
+
 assert '<blockquote>' in article, "Bilbo quotation is not a semantic blockquote"
 assert '*The Fellowship of the Ring*' not in article, "Blockquote attribution not rendered as emphasis"
 assert "Bilbo Baggins" in article and "Frodo" in article, "Missing quotation or attribution"

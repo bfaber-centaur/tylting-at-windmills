@@ -52,3 +52,12 @@ The Astro `site` fallback in `astro.config.mjs` is `https://tylting.at`, with `b
 Posts accept title, description, pubDate, optional updatedDate, optional series: hctigt, tags, draft, and optional crosspostUrl (e.g. LessWrong). The site's own URL remains the canonical URL.
 
 The site uses no external services, analytics, database, or CMS. The First Step is explicitly an unfinished alpha preview; its canonical prose lives in `bubskee/hctigt`.
+
+### Article margin notes
+
+At browser widths of 1280px or more, a lightweight client-side script shows
+the existing rendered footnotes beside their in-text references, shifting notes
+down to prevent overlap. Ordinary endnotes remain in place as the accessible
+fallback on narrow screens or with JavaScript disabled. The visual copies are
+hidden from assistive technology. No manuscript-specific formatting required.
+Layout tests: `node --test scripts/sidenotes.test.mjs`.
