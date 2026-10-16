@@ -7,20 +7,27 @@ const source = [
   '',
   '![Chris Cassidy](assets/cassidy-spacewalk.jpg)',
   '',
-  'The paragraph stays exactly as I wrote it.[^1]',
+  "*Hill Climb Till It's Go Time* is my series about finding my way into interpretability[^1]—and inviting you along.",
+  '',
+  'I am tinkering with interpretability[^2]. This paragraph stays exactly as I wrote it.',
   '',
   '“It is a dangerous business, Frodo, going out your door.” —Bilbo Baggins, *The Lord of the Rings* (J. R. R. Tolkien)',
   '',
   'Here: :hand:',
   '',
-  '[^1]: My own footnote.',
+  '[^1]: What interpretability means.',
+  '',
+  '[^2]: From now on, interp.',
 ].join('\n');
 
 test('article keeps prose and GFM footnotes, without duplicating the H1', () => {
   const page = publishHctigt(source);
   assert.match(page, /^---\ntitle: "The First Step"/);
-  assert.ok(page.includes('The paragraph stays exactly as I wrote it.[^1]'));
-  assert.ok(page.includes('[^1]: My own footnote.'));
+  assert.ok(page.includes('This paragraph stays exactly as I wrote it.'));
+  assert.ok(page.includes('interpretability[^1][^2]'));
+  assert.ok(page.includes('[^1]: What interpretability means.'));
+  assert.ok(page.includes('[^2]: From now on, interp.'));
+  assert.ok(!page.includes('Alpha preview'));
   assert.ok(!page.includes('# HCTiGT: The First Step'));
 });
 test('image locations are adapted, not the author text', () => {
@@ -36,4 +43,15 @@ test('Bilbo is a blockquote with the same words and credit', () => {
 });
 test('unexpected source headings fail instead of silently publishing stale prose', () => {
   assert.throws(() => publishHctigt('## Surprise\n'), /Unexpected HCTiGT first heading/);
+});
+
+test('source series introduction appears in header metadata only, without duplication', () => {
+  const page = publishHctigt(source);
+  assert.ok(page.includes('seriesIntro: "is my series about finding my way into interpretability—and inviting you along."'));
+  assert.ok(!page.includes("*Hill Climb Till It's Go Time* is my series"));
+  assert.equal((page.match(/is my series about/g) || []).length, 1);
+});
+test('changed series introduction fails rather than silently losing its footnote', () => {
+  const changed = source.replace('interpretability[^1]', 'interpretability[^different]');
+  assert.throws(() => publishHctigt(changed), /Series intro or its interpretability footnote changed/);
 });

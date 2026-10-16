@@ -39,6 +39,13 @@ for path in ["windmills/index.html", "windmills/writing/the-first-step/index.htm
     print(f"{path}: {len(parsed.urls)} links and assets checked")
 
 article = (dist / "windmills/writing/the-first-step/index.html").read_text(encoding="utf-8")
+# Published articles need an ordinary title and full series context, with
+# the first-person sentence above the title rather than repeated in the body.
+assert "Alpha preview" not in article, "Unwanted alpha banner"
+assert 'class="article-series-preface"' in article, "Missing series pre-title context"
+assert '/windmills/series/hctigt/' in article, "Series link is missing"
+assert article.count("is my series about finding my way into interpretability") == 1, "Series introduction repeated or lost"
+assert article.index('class="article-series-preface"') < article.index("<h1>The First Step</h1>"), "Series preface must precede title"
 assert "colab.research.google.com/github/bubskee/hctigt/blob/main/notebooks/03-make-a-choice.ipynb" in article
 assert 'rel="canonical" href="https://tylting.at/windmills/writing/the-first-step/"' in article or 'href="https://tylting.at/windmills/writing/the-first-step/" rel="canonical"' in article, "Incorrect article canonical URL"
 assert "/windmills/writing/the-first-step/" in (dist / "windmills/rss.xml").read_text(encoding="utf-8"), "Incorrect RSS URL"
