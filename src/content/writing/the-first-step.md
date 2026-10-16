@@ -13,7 +13,7 @@ tags: [interpretability, experiments]
 
 "It's a dangerous business, Frodo, going out your door. You step onto the road, and if you don't keep your feet, there's no knowing where you might be swept off to." Bilbo Baggins, LOTR, jrrt
 
-{/* Illustration to follow; intentionally omitted for the alpha. */}
+<!-- Illustration to follow; intentionally omitted for the alpha. -->
 
 Hi there! Let's get right to it: we're in a golden age for getting our hands dirty and doing stuff. If you're interested in something, a 7-year-old laptop and an internet connection can get you very far. There are a lot of people (myself included!) who can clear that bar, and I think more of us should be getting our hands dirty with interpretability[^2]. So I'm learning. You should too!
 

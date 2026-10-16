@@ -14,7 +14,7 @@ npm run dev
 npm run build
 ```
 
-Posts are Markdown/MDX files in `src/content/writing` (including `the-first-step.mdx`). To publish another, copy `_example.mdx` to a filename without the leading underscore, fill in the frontmatter, set `draft: false`, and commit.
+Posts are Markdown/MDX files in `src/content/writing` (including `the-first-step.md`). To publish another, copy `_example.mdx` to a filename without the leading underscore, fill in the frontmatter, set `draft: false`, and commit.
 
 ## Cloudflare Workers deployment
 

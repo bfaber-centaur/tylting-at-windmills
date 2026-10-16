@@ -46,5 +46,10 @@ assert (dist / "_redirects").is_file(), "Missing Cloudflare Worker redirects"
 assert (dist / "robots.txt").is_file(), "Missing domain-root robots.txt"
 assert (dist / "windmills/favicon.svg").is_file(), "Missing base-aware favicon"
 assert "/windmills/favicon.svg" in article, "Favicon does not use /windmills prefix"
-print("Footnotes rendered:", "data-footnotes" in article or 'class="footnotes"' in article)
+print("Footnote rendering diagnostic:", {
+    "data-footnotes": "data-footnotes" in article,
+    "class-footnotes": 'class="footnotes"' in article,
+    "literal-marker": "[^1]" in article,
+    "superscripts": "<sup" in article,
+})
 print("Article, Colab, canonical URL, RSS, and redirects verified.")
