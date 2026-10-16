@@ -27,7 +27,7 @@ Cloudflare dashboard → Workers & Pages → `tylting-at-windmills` is deployed 
 - Deploy command: `npx wrangler deploy`
 - Preview command: `npx wrangler preview` (optional preview builds)
 
-The `wrangler.jsonc` config publishes Astro's static `dist/` directory. No Worker script or Cloudflare Astro adapter is necessary.
+The `wrangler.jsonc` config publishes Astro's static `dist/` directory. Astro builds into `dist/windmills/`, and `scripts/prepare-deploy.mjs` moves `_redirects` to `dist/` (where Cloudflare Workers processes it) and copies `robots.txt` to the domain root. No Worker script or Cloudflare Astro adapter is necessary.
 
 ### Custom domain (Dynadot registrar)
 

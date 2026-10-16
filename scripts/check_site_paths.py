@@ -43,4 +43,8 @@ assert "colab.research.google.com/github/bubskee/hctigt/blob/main/notebooks/03-m
 assert 'rel="canonical" href="https://tylting.at/windmills/writing/the-first-step/"' in article or 'href="https://tylting.at/windmills/writing/the-first-step/" rel="canonical"' in article, "Incorrect article canonical URL"
 assert "/windmills/writing/the-first-step/" in (dist / "windmills/rss.xml").read_text(encoding="utf-8"), "Incorrect RSS URL"
 assert (dist / "_redirects").is_file(), "Missing Cloudflare Worker redirects"
+assert (dist / "robots.txt").is_file(), "Missing domain-root robots.txt"
+assert (dist / "windmills/favicon.svg").is_file(), "Missing base-aware favicon"
+assert "/windmills/favicon.svg" in article, "Favicon does not use /windmills prefix"
+print("Footnotes rendered:", "data-footnotes" in article or 'class="footnotes"' in article)
 print("Article, Colab, canonical URL, RSS, and redirects verified.")

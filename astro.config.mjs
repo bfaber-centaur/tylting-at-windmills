@@ -8,6 +8,8 @@ const site = process.env.SITE_URL ?? 'https://tylting.at';
 export default defineConfig({
   site,
   base: '/windmills',
+  // Cloudflare serves assets at the domain root, so nest the generated site.
+  outDir: './dist/windmills',
   trailingSlash: 'always',
   integrations: [mdx(), sitemap()],
 });
