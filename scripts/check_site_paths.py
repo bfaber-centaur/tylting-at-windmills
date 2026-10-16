@@ -49,7 +49,7 @@ assert "/windmills/favicon.svg" in article, "Favicon does not use /windmills pre
 # Standard GFM definition syntax requires the colon in [^n]:.
 source_markdown = Path("src/content/writing/the-first-step.md").read_text(encoding="utf-8")
 for num in ("1", "2", "3"):
-    assert f"\\n[^{num}]: " in source_markdown, f"Footnote {num} definition is missing the colon"
+    assert any(line.startswith(f"[^{num}]: ") for line in source_markdown.splitlines()), f"Footnote {num} definition is missing the colon"
     assert f"[^{num}]" not in article, f"Footnote {num} was not rendered"
 assert "data-footnotes" in article, "Missing rendered footnote section"
 assert article.count("data-footnote-ref") >= 3, "Missing superscript reference links"
