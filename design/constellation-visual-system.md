@@ -12,7 +12,7 @@
 - **Per-series imagery:** the same approach can provide distinctive constellations on series pages and quieter reading-page headers.
 - **Programmatic and reproducible:** generate the SVGs by script, as in consensus-knot. Avoid separately drawing and maintaining many decorative image files.
 - **Responsive:** the scene has a deliberate bounded aspect ratio and composition suitable for both desktop and mobile; no content should be obscured.
-- **Two modes:** dark is the richer atmospheric/observatory treatment derived from consensus-knot; light is a calmer paper/reader treatment, with fewer and fainter flourishes. Keep legible body typography and reading comfort central.
+- **Settled theme distinction (2026-10-15):** *Turn off the lights and look at the stars.* Dark mode is the observatory: ambient node field, authored constellation scenes, and little discoverable figures. Light mode is plain paper: preserve the existing minimal editorial design, **no ambient nodes, no decorative constellations**, and only the small corner logo. Article figures that convey substantive content remain visible in either theme.
 
 ## Proposed implementation (not yet settled)
 
@@ -21,7 +21,7 @@ Treat each page graphic as two cooperating layers in a **shared coordinate syste
 1. **Ambient field:** deterministic seeded nodes with bounded sparse edges and very rare non-connected copper companions. Use a density/falloff mask to protect navigation, text, and the principal constellation.
 2. **Authored motif:** a small graph with hand-designed node coordinates and selected edges that resolves into a recognizable subject (windmill/hill and perhaps a lightly suggested lancer). Its palette, line weights, and node sizes match the ambient field. The boundary is never drawn; spacing and opacity create the transition.
 
-Produce final **static SVG** assets at build time from script and retain sources (nodes/edges/seed) in the repository. Consistency across page loads is preferable to new randomness on every reload. The site can use CSS custom properties for contrast variations between light and dark where practical, instead of changing the underlying graph.
+Produce final **static SVG** assets at build time from script and retain sources (nodes/edges/seed) in the repository. Consistency across page loads is preferable to new randomness on every reload. **Render the atmospheric SVGs in dark mode only**; light/paper mode needs no corresponding decorative assets. A theme switch should reveal or hide the star field and its discoveries without disrupting reading content.
 
 ### Candidate arrangement
 
@@ -37,12 +37,12 @@ Make two desktop and mobile comparisons **without changing production**:
 - A: windmill-on-hill graph alone.
 - B: same windmill, with a subtle distant lancer (visually subordinate).
 
-Show both in dark mode and in muted paper mode. Judge: recognizability at small size, calmness around text, whether motif boundaries vanish into the wider field, and whether copper companions remain unmistakably disconnected.
+Prototype the constellation variants **in dark mode**; compare each against the unchanged paper-mode reading layout with just the corner logo. Judge: recognizability at small size, calmness around text, whether motif boundaries vanish into the wider field, and whether copper companions remain unmistakably disconnected.
 
 ## Open questions for iteration
 
 - Is the lancer actually needed to make the homepage work, or is the windmill sufficient?
-- How much of the background field, if any, should survive around the text on reading pages?
+- In dark-mode reading pages, how much of the background field should survive around the article header and margins? Keep the body text unobstructed.
 - Should the little brand mark be the unchanged consensus-knot logo, or a compatible new mark for this site?
 - Exact composition, wordmark placement, and breakpoints await the visual prototype.
 
@@ -50,4 +50,4 @@ Show both in dark mode and in muted paper mode. Judge: recognizability at small 
 
 - Animations, mouse-tracking, star parallax, or randomized page-to-page flicker
 - Fully illustrated fantasy scenes or bright network-wallpaper decoration
-- Replacing the existing light mode's minimal editorial layout
+- Introducing decorative stars or constellation motifs into the light/paper theme (this choice is settled)
