@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build && node scripts/prepare-deploy.mjs",
+    "dev": "node scripts/import-hctigt.mjs && astro dev",
+    "sync:hctigt": "node scripts/import-hctigt.mjs",
+    "build": "node scripts/import-hctigt.mjs && astro build && node scripts/prepare-deploy.mjs",
     "preview": "astro preview",
     "check": "astro check"
   },

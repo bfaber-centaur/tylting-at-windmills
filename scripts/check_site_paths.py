@@ -46,16 +46,21 @@ assert (dist / "_redirects").is_file(), "Missing Cloudflare Worker redirects"
 assert (dist / "robots.txt").is_file(), "Missing domain-root robots.txt"
 assert (dist / "windmills/favicon.svg").is_file(), "Missing base-aware favicon"
 assert "/windmills/favicon.svg" in article, "Favicon does not use /windmills prefix"
-# Standard GFM definition syntax requires the colon in [^n]:.
+# The article is freshly generated from HCTiGT, not maintained as a site copy.
 source_markdown = Path("src/content/writing/the-first-step.md").read_text(encoding="utf-8")
-for num in ("1", "2", "3"):
-    assert any(line.startswith(f"[^{num}]: ") for line in source_markdown.splitlines()), f"Footnote {num} definition is missing the colon"
-    assert f"[^{num}]" not in article, f"Footnote {num} was not rendered"
-assert "data-footnotes" in article, "Missing rendered footnote section"
-assert article.count("data-footnote-ref") >= 3, "Missing superscript reference links"
-assert article.count("data-footnote-backref") >= 3, "Missing return links"
-assert article.count("<sup") >= 3, "Footnote references should be superscripts"
-print("Footnotes: three linked references, definitions and back-links rendered.")
+assert source_markdown.startswith("---\ntitle: \"The First Step\""), "Missing site metadata"
+assert "NASA / Public domain" in source_markdown, "Expected author's NASA image credit"
+assert "Cargo Cult Science" in source_markdown, "Article seems older than canonical source"
+import re
+footnotes = re.findall(r"^\[\^([A-Za-z0-9_-]+)\]:", source_markdown, re.MULTILINE)
+assert len(footnotes) >= 4, f"Expected current HCTiGT named notes, found {footnotes}"
+for label in footnotes:
+    assert f"[^{label}]" not in article, f"Footnote {label} not rendered"
+assert "data-footnotes" in article, "Missing rendered footnotes section"
+assert article.count("data-footnote-ref") >= len(footnotes), "Missing footnote references"
+assert article.count("data-footnote-backref") >= len(footnotes), "Missing footnote backlinks"
+assert article.count("<sup") >= len(footnotes), "Missing footnote superscripts"
+print(f"Footnotes: {len(footnotes)} linked references, definitions and back-links.")
 
 # Footnote presentation enhancement is bundled without replacing the endnotes.
 # Astro may inline small scripts into the page rather than emitting .js files.
@@ -74,4 +79,8 @@ assert '<blockquote>' in article, "Bilbo quotation is not a semantic blockquote"
 assert '*The Fellowship of the Ring*' not in article, "Blockquote attribution not rendered as emphasis"
 assert "Bilbo Baggins" in article and "Frodo" in article, "Missing quotation or attribution"
 
-print("Article, Colab, canonical URL, RSS, and redirects verified.")
+# The source's image lives in the actual Cloudflare-deployed /windmills tree.
+assert "/windmills/hctigt-assets/cassidy-spacewalk.jpg" in article, "Missing linked Cassidy image"
+image = dist / "windmills/hctigt-assets/cassidy-spacewalk.jpg"
+assert image.is_file() and image.stat().st_size > 100_000, "Missing or incomplete copied NASA image"
+print("Fresh HCTiGT article and image, Colab, canonical URL, RSS, and redirects verified.")

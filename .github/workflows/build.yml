@@ -21,4 +21,5 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: python3 scripts/check_site_paths.py
+      - run: node --test scripts/hctigt-publication.test.mjs
       - run: node --test scripts/sidenotes.test.mjs

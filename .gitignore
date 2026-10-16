@@ -6,3 +6,7 @@ dist/
 .env.*
 !.env.example
 .DS_Store
+
+# Materialized at build time from bubskee/hctigt; never manually edit here.
+/src/content/writing/the-first-step.md
+/public/hctigt-assets/
