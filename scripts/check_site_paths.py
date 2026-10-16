@@ -58,12 +58,17 @@ assert article.count("<sup") >= 3, "Footnote references should be superscripts"
 print("Footnotes: three linked references, definitions and back-links rendered.")
 
 # Footnote presentation enhancement is bundled without replacing the endnotes.
-bundled = "\\n".join(
-    p.read_text(encoding="utf-8") for p in (dist / "windmills/_astro").glob("*.js")
+# Astro may inline small scripts into the page rather than emitting .js files.
+# Inspect both generated page HTML and every emitted JS bundle.
+assets = list(dist.rglob("*.js"))
+bundled = article + "\\n" + "\\n".join(
+    p.read_text(encoding="utf-8") for p in assets
 )
-assert "margin-notes" in bundled, "No bundled sidenote enhancer"
+print("Sidenote script audit:", len(assets), "JS assets,",
+      "inline or bundled code:", "margin-notes" in bundled)
+assert "margin-notes" in bundled, "No sidenote enhancer in article or built JS"
 assert "data-footnote-ref" in bundled, "Missing sidenote reference selector"
-print("Desktop sidenote enhancer bundled; mobile endnotes remain intact.")
+print("Desktop sidenote enhancer present; mobile endnotes remain intact.")
 
 assert '<blockquote>' in article, "Bilbo quotation is not a semantic blockquote"
 assert '*The Fellowship of the Ring*' not in article, "Blockquote attribution not rendered as emphasis"
