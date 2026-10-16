@@ -48,7 +48,10 @@ assert '/windmills/series/hctigt/' in article, "Series link is missing"
 source_markdown = Path("src/content/writing/the-first-step.md").read_text(encoding="utf-8")
 series_intro = "is my series about finding my way into interpretability"
 # A second occurrence belongs to the author, not to the site's presenter.
-expected_occurrences = 1 + int(series_intro in source_markdown)
+# The site-owned frontmatter includes the header text, so only inspect
+# Markdown after frontmatter when determining whether the author repeats it.
+source_body = source_markdown.split("\n---\n", 1)[1]
+expected_occurrences = 1 + int(series_intro in source_body)
 assert article.count(series_intro) == expected_occurrences, (
     f"Series context should appear once in the header plus any canonical article occurrence, got {article.count(series_intro)}"
 )
