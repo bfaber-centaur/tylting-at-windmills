@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostList from '../components/PostList.astro';
 import { publishedPosts } from '../lib/posts';
+import { sitePath } from '../lib/urls';
 const posts = (await publishedPosts()).slice(0, 5);
 ---
 <BaseLayout title="Tylting at Windmills" description="A personal home for research, writing, and experiments.">
@@ -16,10 +17,10 @@ const posts = (await publishedPosts()).slice(0, 5);
       <h2 id="series-title">Hill Climb Till It's Go Time</h2>
       <p>Notes on making progress in AI interpretability.</p>
     </div>
-    <a class="text-link" href="/series/hctigt/">Explore the series <span aria-hidden="true">↗</span></a>
+    <a class="text-link" href={sitePath('series/hctigt/')}>Explore the series <span aria-hidden="true">↗</span></a>
   </section>
   <section class="section-block" aria-labelledby="recent-title">
-    <div class="section-header"><h2 id="recent-title">Recent writing</h2><a href="/writing/">All writing →</a></div>
+    <div class="section-header"><h2 id="recent-title">Recent writing</h2><a href={sitePath('writing/')}>All writing →</a></div>
     <PostList posts={posts} />
   </section>
 </BaseLayout>

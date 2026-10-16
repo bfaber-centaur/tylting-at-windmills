@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { sitePath } from '../lib/urls';
 
 interface Props {
   title: string;
@@ -18,9 +19,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <title>{documentTitle}</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={sitePath('favicon.svg')} type="image/svg+xml" />
     <link rel="canonical" href={canonical.href} />
-    <link rel="alternate" type="application/rss+xml" title="Tylting at Windmills RSS" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Tylting at Windmills RSS" href={sitePath('rss.xml')} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={documentTitle} />
     <meta property="og:description" content={description} />
@@ -29,20 +30,20 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <body>
     <div class="site-shell">
       <header class="site-header">
-        <a href="/" class="brand" aria-label="Tylting at Windmills, homepage">
+        <a href={sitePath()} class="brand" aria-label="Tylting at Windmills, homepage">
           <span class="brand-icon" aria-hidden="true">✳</span>
           <span>Tylting at Windmills</span>
         </a>
         <nav aria-label="Main navigation">
-          <a href="/writing/">Writing</a>
-          <a href="/projects/">Projects</a>
-          <a href="/about/">About</a>
+          <a href={sitePath('writing/')}>Writing</a>
+          <a href={sitePath('projects/')}>Projects</a>
+          <a href={sitePath('about/')}>About</a>
         </nav>
       </header>
       <main id="content"><slot /></main>
       <footer class="site-footer">
         <span>Tylting at Windmills</span>
-        <div><a href="/rss.xml">RSS</a><span aria-hidden="true"> · </span><a href="https://github.com/bubskee">GitHub</a></div>
+        <div><a href={sitePath('rss.xml')}>RSS</a><span aria-hidden="true"> · </span><a href="https://github.com/bubskee">GitHub</a></div>
       </footer>
     </div>
   </body>

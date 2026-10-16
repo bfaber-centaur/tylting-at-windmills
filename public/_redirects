@@ -1,0 +1,10 @@
+# The domain-hack's home is /windmills/. Old links remain usable.
+/ /windmills/ 301
+/writing /windmills/writing/ 301
+/writing/* /windmills/writing/:splat 301
+/series/* /windmills/series/:splat 301
+/projects /windmills/projects/ 301
+/projects/ /windmills/projects/ 301
+/about /windmills/about/ 301
+/about/ /windmills/about/ 301
+/rss.xml /windmills/rss.xml 301
