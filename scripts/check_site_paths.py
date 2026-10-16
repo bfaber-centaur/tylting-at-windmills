@@ -90,4 +90,26 @@ assert "Bilbo Baggins" in article and "Frodo" in article, "Missing quotation or 
 assert "/windmills/hctigt-assets/cassidy-spacewalk.jpg" in article, "Missing linked Cassidy image"
 image = dist / "windmills/hctigt-assets/cassidy-spacewalk.jpg"
 assert image.is_file() and image.stat().st_size > 100_000, "Missing or incomplete copied NASA image"
+# The construction note should be visible on all pages, with no duplicate
+# banners or dependency on a dynamic widget.
+for page in [dist / "windmills/index.html", dist / "windmills/projects/index.html",
+             dist / "windmills/writing/the-first-step/index.html"]:
+    html = page.read_text(encoding="utf-8")
+    assert html.count("Pardon our dust!") == 1, f"Missing or duplicate site notice: {page}"
+
+# The Projects index is hand-curated, with exactly the intended active projects
+# and the existing public research artifact. Keep the links verifiable in HTML.
+projects = (dist / "windmills/projects/index.html").read_text(encoding="utf-8")
+assert 'id="current-projects"' in projects, "Missing current projects section"
+assert 'id="published-tools"' in projects, "Missing published tools section"
+for url in (
+    "https://github.com/bubskee/stars-elegy",
+    "https://github.com/bubskee/euphoria-axis",
+    "https://huggingface.co/bubskee/qwen3-14b-jr-lenses",
+    "https://github.com/bubskee/euphoria-axis/blob/main/releases/qwen3-14b-jr-lenses/README.md",
+):
+    assert f'href="{url}"' in projects, f"Missing project link: {url}"
+assert "Projects coming soon." not in projects, "Stale projects placeholder"
+print("Construction note and current/public projects verified.")
+
 print("Fresh HCTiGT article and image, Colab, canonical URL, RSS, and redirects verified.")

@@ -1,7 +1,48 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="Projects" description="Research and engineering projects.">
-  <header class="page-header"><p class="eyebrow">Workshop</p><h1>Projects</h1><p>Research and engineering projects will live here.</p></header>
-  <p class="empty-state">Projects coming soon.</p>
+<BaseLayout title="Projects" description="Current research projects and published research tools.">
+  <header class="page-header">
+    <p class="eyebrow">Workshop</p>
+    <h1>Projects</h1>
+    <p>Things I'm investigating, rebuilding, and sharing for others to explore.</p>
+  </header>
+
+  <section class="section-block project-section" aria-labelledby="current-projects">
+    <h2 id="current-projects">Current projects</h2>
+    <div class="project-grid">
+      <article class="project-entry">
+        <p class="project-kind">Game systems · Reverse engineering</p>
+        <h3>Elegy</h3>
+        <p>A modern reimplementation of <em>Stars!</em>, working toward a deterministic game engine and testing its behavior against the original.</p>
+        <div class="project-links">
+          <a href="https://github.com/bubskee/stars-elegy">Code &amp; notes <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+
+      <article class="project-entry">
+        <p class="project-kind">Interpretability · Experiments</p>
+        <h3>euphoria-axis</h3>
+        <p>Experiments extending <em>The Pain Axis</em> work to Qwen models, with notebooks, protocols, and recorded results.</p>
+        <div class="project-links">
+          <a href="https://github.com/bubskee/euphoria-axis">Research repository <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section-block project-section project-section-tools" aria-labelledby="published-tools">
+    <h2 id="published-tools">Published tools</h2>
+    <div class="project-grid project-grid-single">
+      <article class="project-entry">
+        <p class="project-kind">Model internals · Downloadable artifacts</p>
+        <h3>J/R lenses for Qwen3-14B</h3>
+        <p>A matched pair of independently fitted J-lens and RelP-based R-lens weights for exploring representations across model layers and token positions. Lens weights, not a standalone language model.</p>
+        <div class="project-links">
+          <a href="https://huggingface.co/bubskee/qwen3-14b-jr-lenses">Hugging Face <span aria-hidden="true">↗</span></a>
+          <a href="https://github.com/bubskee/euphoria-axis/blob/main/releases/qwen3-14b-jr-lenses/README.md">Fitting recipe <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+    </div>
+  </section>
 </BaseLayout>
