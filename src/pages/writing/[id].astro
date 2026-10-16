@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { sitePath } from '../../lib/urls';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -14,12 +15,12 @@ const date = post.data.pubDate.toLocaleDateString('en-US', { dateStyle: 'long', 
 <BaseLayout title={post.data.title} description={post.data.description}>
   <article class="article">
     <header class="article-header">
-      <div class="post-meta"><time datetime={post.data.pubDate.toISOString()}>{date}</time>{post.data.series === 'hctigt' && <span> · <a href="/series/hctigt/">HCTiGT</a></span>}</div>
+      <div class="post-meta"><time datetime={post.data.pubDate.toISOString()}>{date}</time>{post.data.series === 'hctigt' && <span> · <a href={sitePath('series/hctigt/')}>HCTiGT</a></span>}</div>
       <h1>{post.data.title}</h1>
       <p class="article-deck">{post.data.description}</p>
     </header>
     <div class="prose"><Content /></div>
     {post.data.crosspostUrl && <p class="crosspost-note">Also published on <a href={post.data.crosspostUrl} rel="noopener noreferrer">LessWrong ↗</a>.</p>}
-    <div class="article-back"><a href="/writing/">← All writing</a></div>
+    <div class="article-back"><a href={sitePath('writing/')}>← All writing</a></div>
   </article>
 </BaseLayout>

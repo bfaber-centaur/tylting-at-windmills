@@ -7,5 +7,7 @@ const site = process.env.SITE_URL ?? 'https://tylting.at';
 
 export default defineConfig({
   site,
+  base: '/windmills',
+  trailingSlash: 'always',
   integrations: [mdx(), sitemap()],
 });

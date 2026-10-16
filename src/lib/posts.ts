@@ -1,4 +1,5 @@
 import { getCollection } from 'astro:content';
+import { sitePath } from './urls';
 
 export async function publishedPosts() {
   const posts = await getCollection('writing', ({ data }) => !data.draft);
@@ -6,5 +7,5 @@ export async function publishedPosts() {
 }
 
 export function postUrl(id: string) {
-  return '/writing/' + id + '/';
+  return sitePath('writing/' + id + '/');
 }

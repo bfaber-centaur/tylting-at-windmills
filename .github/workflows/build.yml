@@ -20,3 +20,4 @@ jobs:
           cache-dependency-path: package.json
       - run: npm install
       - run: npm run build
+      - run: python3 scripts/check_site_paths.py

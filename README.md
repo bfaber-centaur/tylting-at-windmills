@@ -14,11 +14,11 @@ npm run dev
 npm run build
 ```
 
-There are **no published articles** in the starter. Posts are Markdown/MDX files in src/content/writing. To publish one, copy _example.mdx to a filename without the leading underscore, fill in the frontmatter, set draft: false, and commit.
+Posts are Markdown/MDX files in `src/content/writing` (including `the-first-step.mdx`). To publish another, copy `_example.mdx` to a filename without the leading underscore, fill in the frontmatter, set `draft: false`, and commit.
 
 ## Cloudflare Workers deployment
 
-The website is intended to be public at **[https://tylting.at](https://tylting.at)**. Until DNS is configured, the underlying Worker is accessible at [https://tylting-at-windmills.bfaber.workers.dev](https://tylting-at-windmills.bfaber.workers.dev).
+The site lives under **[https://tylting.at/windmills/](https://tylting.at/windmills/)** (the registered domain is `tylting.at`, with a **y**). Until DNS is configured, the underlying Worker is accessible at [https://tylting-at-windmills.bfaber.workers.dev](https://tylting-at-windmills.bfaber.workers.dev).
 
 Cloudflare dashboard → Workers & Pages → `tylting-at-windmills` is deployed from the authoritative **bubskee/tylting-at-windmills** repository.
 
@@ -36,18 +36,19 @@ The `wrangler.jsonc` config publishes Astro's static `dist/` directory. No Worke
 3. Wait until the Cloudflare `tylting.at` DNS zone is **Active**. Then open **Workers & Pages → tylting-at-windmills → Settings → Domains & Routes → Add → Custom Domain** and enter `tylting.at`. Cloudflare creates the necessary DNS record and TLS certificate automatically.
 4. Optionally add `www.tylting.at` as an additional custom domain and configure a redirect to the apex to avoid duplicate indexable hostnames.
 
-The Astro `site` fallback in `astro.config.mjs` is `https://tylting.at` for canonical links, RSS and the sitemap. If `SITE_URL` is defined among Cloudflare's **build-time** environment variables, ensure it is also set to `https://tylting.at`; otherwise the build-time override wins. For a future custom domain change, update `SITE_URL` or the fallback and redeploy.
+The Astro `site` fallback in `astro.config.mjs` is `https://tylting.at`, with `base: '/windmills'` for the site's public URL prefix. The Cloudflare Worker redirects old root-level links through `public/_redirects`. If `SITE_URL` is defined among Cloudflare's **build-time** environment variables, ensure it is also set to `https://tylting.at`; otherwise the build-time override wins. For a future custom domain change, update `SITE_URL` or the fallback and redeploy.
 
 
 ## Site structure
 
-- / — homepage
-- /writing/ — chronological writing
-- /series/hctigt/ — HCTiGT series
-- /projects/ — projects
-- /about/ — about
-- /rss.xml — RSS
+- /windmills/ — homepage
+- /windmills/writing/ — chronological writing
+- /windmills/writing/the-first-step/ — first article / Colab
+- /windmills/series/hctigt/ — HCTiGT series
+- /windmills/projects/ — projects
+- /windmills/about/ — about
+- /windmills/rss.xml — RSS
 
 Posts accept title, description, pubDate, optional updatedDate, optional series: hctigt, tags, draft, and optional crosspostUrl (e.g. LessWrong). The site's own URL remains the canonical URL.
 
-The starter intentionally contains no article drafts and no external services, analytics, database, or CMS.
+The site uses no external services, analytics, database, or CMS. The First Step is explicitly an unfinished alpha preview; its canonical prose lives in `bubskee/hctigt`.
