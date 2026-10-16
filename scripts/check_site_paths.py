@@ -52,6 +52,10 @@ print("Footnote markup:", {
     "literal-reference": "[^1]" in article,
     "superscripts": "<sup" in article,
 })
+for marker in ("[^1]", "[^1]:", "Bilbo Baggins", "<blockquote>"):
+    idx = article.find(marker)
+    print("HTML excerpt", marker, idx, repr(article[max(0, idx-160):idx+280]) if idx >= 0 else "<not found>")
+
 assert "[^1]" not in article and "[^2]" not in article and "[^3]" not in article, "Literal unrendered footnote markers"
 assert 'data-footnotes' in article, "Missing rendered footnote section"
 assert article.count('data-footnote-ref') >= 3, "Missing linked superscript references"
