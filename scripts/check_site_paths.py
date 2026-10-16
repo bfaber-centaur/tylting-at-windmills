@@ -46,20 +46,17 @@ assert (dist / "_redirects").is_file(), "Missing Cloudflare Worker redirects"
 assert (dist / "robots.txt").is_file(), "Missing domain-root robots.txt"
 assert (dist / "windmills/favicon.svg").is_file(), "Missing base-aware favicon"
 assert "/windmills/favicon.svg" in article, "Favicon does not use /windmills prefix"
-# Do not silently ship literal [^1] markers: the reader needs clickable notes.
-print("Footnote markup:", {
-    "data-footnotes": "data-footnotes" in article,
-    "literal-reference": "[^1]" in article,
-    "superscripts": "<sup" in article,
-})
-for marker in ("[^1]", "[^1]:", "Bilbo Baggins", "<blockquote>"):
-    idx = article.find(marker)
-    print("HTML excerpt", marker, idx, repr(article[max(0, idx-160):idx+280]) if idx >= 0 else "<not found>")
+# Standard GFM definition syntax requires the colon in [^n]:.
+source_markdown = Path("src/content/writing/the-first-step.md").read_text(encoding="utf-8")
+for num in ("1", "2", "3"):
+    assert f"\\n[^{num}]: " in source_markdown, f"Footnote {num} definition is missing the colon"
+    assert f"[^{num}]" not in article, f"Footnote {num} was not rendered"
+assert "data-footnotes" in article, "Missing rendered footnote section"
+assert article.count("data-footnote-ref") >= 3, "Missing superscript reference links"
+assert article.count("data-footnote-backref") >= 3, "Missing return links"
+assert article.count("<sup") >= 3, "Footnote references should be superscripts"
+print("Footnotes: three linked references, definitions and back-links rendered.")
 
-assert "[^1]" not in article and "[^2]" not in article and "[^3]" not in article, "Literal unrendered footnote markers"
-assert 'data-footnotes' in article, "Missing rendered footnote section"
-assert article.count('data-footnote-ref') >= 3, "Missing linked superscript references"
-assert article.count('data-footnote-backref') >= 3, "Missing back-to-article links"
 assert '<blockquote>' in article, "Bilbo quotation is not a semantic blockquote"
 assert '*The Fellowship of the Ring*' not in article, "Blockquote attribution not rendered as emphasis"
 assert "Bilbo Baggins" in article and "Frodo" in article, "Missing quotation or attribution"

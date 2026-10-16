@@ -51,8 +51,8 @@ thanks for reading!
 
 
 
-[^1] By interpretability, I mean whatever helps us understand what models are doing and why. Mechanistic, behavioral, pragmatic, prosaic—I'm interested in whatever works.
+[^1]: By interpretability, I mean whatever helps us understand what models are doing and why. Mechanistic, behavioral, pragmatic, prosaic—I'm interested in whatever works.
 
-[^2] interp, from here on. minterp if you're feeling feisty.
+[^2]: interp, from here on. minterp if you're feeling feisty.
 
-[^3] link to a sequence about being less wrong? maybe one of the beginner ones? haha
+[^3]: link to a sequence about being less wrong? maybe one of the beginner ones? haha
