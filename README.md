@@ -14,7 +14,7 @@ npm run dev
 npm run build
 ```
 
-*The First Step* comes from the canonical `bubskee/hctigt/posts/01-the-first-step.md` manuscript at build time, not a checked-in copy. The sync script generates `src/content/writing/the-first-step.md` and retrieves its local NASA image under `public/hctigt-assets/`. Both paths are gitignored. Site publication metadata, the alpha notice, heading handling and the Bilbo blockquote presentation live in `scripts/hctigt-publication.mjs`, leaving authored prose untouched in the upstream repository.
+*The First Step* comes from the canonical `bubskee/hctigt/posts/01-the-first-step.md` manuscript at build time, not a checked-in copy. The sync script generates `src/content/writing/the-first-step.md` and retrieves its local NASA image under `public/hctigt-assets/`. Both paths are gitignored. Site publication metadata, including the series preface above article titles, plus heading handling and Bilbo blockquote presentation live in `scripts/hctigt-publication.mjs`. The preface is independent site chrome; any similar paragraph in HCTiGT remains in the article, with its original footnote, until edited at the canonical source.
 
 A normal `npm run build` (and `npm run dev`) imports the **current HCTiGT main** first. Run `npm run sync:hctigt` to refresh by hand. For a reproducible snapshot, set `HCTIGT_REF` to a 40-character Git commit SHA. Network failures stop the build rather than silently shipping a stale copy. HCTiGT commits **do not themselves trigger** a Cloudflare deployment; a site build must run to pick up revisions.
 
@@ -55,7 +55,7 @@ The Astro `site` fallback in `astro.config.mjs` is `https://tylting.at`, with `b
 
 Posts accept title, description, pubDate, optional updatedDate, optional series: hctigt, tags, draft, and optional crosspostUrl (e.g. LessWrong). The site's own URL remains the canonical URL.
 
-The site uses no external services, analytics, database, or CMS. The First Step is explicitly an unfinished alpha preview; the site imports its canonical manuscript and image from `bubskee/hctigt` during each build.
+The site uses no external services, analytics, database, or CMS. The First Step's manuscript and image are imported from `bubskee/hctigt` during each build; updates to prose, including removing any repetitive series introduction, must originate in HCTiGT.
 
 ### Article margin notes
 

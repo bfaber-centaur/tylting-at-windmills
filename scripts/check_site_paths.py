@@ -39,12 +39,22 @@ for path in ["windmills/index.html", "windmills/writing/the-first-step/index.htm
     print(f"{path}: {len(parsed.urls)} links and assets checked")
 
 article = (dist / "windmills/writing/the-first-step/index.html").read_text(encoding="utf-8")
-# Published articles need an ordinary title and full series context, with
-# the first-person sentence above the title rather than repeated in the body.
+# The site's header provides series context, while the HCTiGT manuscript
+# remains authoritative. Repetition is intentional until the author changes
+# the source: the import must never delete or move the source's footnotes.
 assert "Alpha preview" not in article, "Unwanted alpha banner"
 assert 'class="article-series-preface"' in article, "Missing series pre-title context"
 assert '/windmills/series/hctigt/' in article, "Series link is missing"
-assert article.count("is my series about finding my way into interpretability") == 1, "Series introduction repeated or lost"
+source_markdown = Path("src/content/writing/the-first-step.md").read_text(encoding="utf-8")
+series_intro = "is my series about finding my way into interpretability"
+# A second occurrence belongs to the author, not to the site's presenter.
+# The site-owned frontmatter includes the header text, so only inspect
+# Markdown after frontmatter when determining whether the author repeats it.
+source_body = source_markdown.split("\n---\n", 1)[1]
+expected_occurrences = 1 + int(series_intro in source_body)
+assert article.count(series_intro) == expected_occurrences, (
+    f"Series context should appear once in the header plus any canonical article occurrence, got {article.count(series_intro)}"
+)
 assert article.index('class="article-series-preface"') < article.index("<h1>The First Step</h1>"), "Series preface must precede title"
 assert "colab.research.google.com/github/bubskee/hctigt/blob/main/notebooks/03-make-a-choice.ipynb" in article
 assert 'rel="canonical" href="https://tylting.at/windmills/writing/the-first-step/"' in article or 'href="https://tylting.at/windmills/writing/the-first-step/" rel="canonical"' in article, "Incorrect article canonical URL"

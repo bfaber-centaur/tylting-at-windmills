@@ -13,6 +13,8 @@ export const publicationMetadata = [
   'pubDate: 2026-10-16',
   'draft: false',
   'series: hctigt',
+  // Site-owned navigation, not text moved out of the canonical article.
+  'seriesIntro: "is my series about finding my way into interpretability—and inviting you along."',
   'tags: [interpretability, experiments]',
   '---',
 ].join('\n');
@@ -46,27 +48,12 @@ export function publishHctigt(markdown) {
     return '![' + alt + '](' + imageBase + filename + ')';
   });
 
-  // Present the author's one-sentence series introduction in the page
-  // header above the title, rather than repeating it inside the essay.
-  // Keep its interpretability footnote alive at the next mention in prose.
-  // If the source intro changes, require a conscious update to this display
-  // adaptation rather than quietly dropping a footnote.
-  const seriesParagraph = /^\*Hill Climb Till It's Go Time\* (is my series about .+)$/m;
-  const seriesMatch = body.match(seriesParagraph);
-  if (!seriesMatch || !seriesMatch[1].includes('[^1]') ||
-      body.split('interpretability[^2]').length !== 2) {
-    throw new Error('Series intro or its interpretability footnote changed. Review site presentation.');
-  }
-  const seriesIntro = seriesMatch[1].replace('[^1]', '');
-  body = body.replace(seriesParagraph, '').replace('interpretability[^2]', 'interpretability[^1][^2]');
-  // Remove redundant blank space where the paragraph used to be.
-  body = body.replace(/\n{3,}/g, '\n\n');
-
+  // Keep every author-written paragraph and footnote reference in place.
+  // Series context above the page title is separate, site-owned metadata.
+  // If the manuscript also explains the series, display both until its
+  // author edits HCTiGT; never silently remove or relocate source prose.
   // Retain author prose but render the intended greeting as an emoji.
   body = body.replace('Here: :hand:', 'Here: 👋');
 
-  const frontmatter = publicationMetadata.replace(
-    /\n---$/, '\nseriesIntro: ' + JSON.stringify(seriesIntro) + '\n---'
-  );
-  return frontmatter + '\n\n' + body.trimEnd() + '\n';
+  return publicationMetadata + '\n\n' + body.trimEnd() + '\n';
 }
