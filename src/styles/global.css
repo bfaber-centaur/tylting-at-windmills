@@ -175,3 +175,46 @@ em { font-weight: 400; }
   .project-section { padding-top: 29px; }
   .project-section + .project-section { padding-top: 26px; }
 }
+
+/* About: the original consensus-knot three-node mark beside a brief intro. */
+.about-header { padding-bottom: 28px; }
+.about-profile {
+  display: grid;
+  grid-template-columns: minmax(140px, 180px) minmax(0, 1fr);
+  align-items: start;
+  gap: 38px;
+  padding: 9px 0 8px;
+  max-width: 810px;
+}
+.about-mark {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 10px;
+  border: 1px solid var(--hairline);
+}
+.about-copy { min-width: 0; }
+.about-copy p {
+  margin: 0 0 1.12em;
+  font-size: 16px;
+  line-height: 1.75;
+}
+.about-links {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 23px;
+  row-gap: 13px;
+  margin-top: 30px;
+}
+.about-links a {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  text-underline-offset: .25em;
+}
+@media (max-width: 640px) {
+  .about-profile { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  .about-mark { max-width: 150px; }
+  .about-links { margin-top: 23px; }
+}

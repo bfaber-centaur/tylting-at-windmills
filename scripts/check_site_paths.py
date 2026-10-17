@@ -122,4 +122,21 @@ for url in (
 assert "Projects coming soon." not in projects, "Stale projects placeholder"
 print("Construction note and current/public projects verified.")
 
+# About page is a short, linked introduction with the original graph mark.
+about = (dist / "windmills/about/index.html").read_text(encoding="utf-8")
+assert 'class="about-profile"' in about and 'class="about-copy"' in about
+assert 'alt="Personal logo: three connected nodes on a dark background"' in about
+assert 'src="/windmills/img/github_logo.png"' in about, "Logo must use the site URL prefix"
+from re import search
+bio = search(r'<div class="about-copy">(.*?)<nav class="about-links"', about, flags=__import__("re").DOTALL)
+assert bio is not None, "Missing about introduction"
+assert bio.group(1).count("<p>") == 3, "The about blurb should be exactly three sentences in three paragraphs"
+for url in ("https://github.com/bubskee", "https://x.com/tylting", "/windmills/projects/"):
+    assert f'href="{url}"' in about, f"Missing about link: {url}"
+assert 'href="https://x.com/tylting"' in (dist / "windmills/index.html").read_text(encoding="utf-8"), "Missing site-wide Twitter link"
+logo = dist / "windmills/img/github_logo.png"
+assert logo.is_file() and logo.stat().st_size == 10026, "Original consensus-knot logo missing or modified"
+assert logo.read_bytes().startswith(bytes.fromhex("89504e470d0a1a0a")), "Logo is not a PNG"
+print("About portrait, three-sentence blurb, social links, and site footer verified.")
+
 print("Fresh HCTiGT article and image, Colab, canonical URL, RSS, and redirects verified.")
