@@ -1,7 +1,30 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { sitePath } from '../../lib/urls';
 ---
-<BaseLayout title="About" description="About Tylting at Windmills.">
-  <header class="page-header"><p class="eyebrow">A little context</p><h1>About</h1><p>Tylting at Windmills is a personal home for research notes, essays, and experiments.</p></header>
-  <p class="empty-state">A proper introduction is coming soon.</p>
+<BaseLayout title="About" description="An engineer's notes on interpretability research, software, and experiments.">
+  <header class="page-header about-header">
+    <p class="eyebrow">A little context</p>
+    <h1>About</h1>
+  </header>
+  <section class="about-profile" aria-label="About this site's author">
+    <img
+      class="about-mark"
+      src={sitePath('img/github_logo.png')}
+      alt="Personal logo: three connected nodes on a dark background"
+      width="500"
+      height="500"
+      decoding="async"
+    />
+    <div class="about-copy">
+      <p>I'm a software engineer who likes figuring out what makes complicated systems tick—from distributed software to language models and old strategy games.</p>
+      <p>Lately I've been doing independent interpretability research, building little tools, and sharing the experiments as I go.</p>
+      <p>If something here makes you curious, come say hi.</p>
+      <nav class="about-links" aria-label="Find me and my work">
+        <a href="https://github.com/bubskee" rel="me">GitHub <span aria-hidden="true">↗</span></a>
+        <a href="https://x.com/tylting" rel="me">X / Twitter (@tylting) <span aria-hidden="true">↗</span></a>
+        <a href={sitePath('projects/')}>Current projects <span aria-hidden="true">→</span></a>
+      </nav>
+    </div>
+  </section>
 </BaseLayout>

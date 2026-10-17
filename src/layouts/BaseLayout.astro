@@ -44,7 +44,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       <main id="content"><slot /></main>
       <footer class="site-footer">
         <span>Tylting at Windmills</span>
-        <div><a href={sitePath('rss.xml')}>RSS</a><span aria-hidden="true"> · </span><a href="https://github.com/bubskee">GitHub</a></div>
+        <div><a href={sitePath('rss.xml')}>RSS</a><span aria-hidden="true"> · </span><a href="https://github.com/bubskee" rel="me">GitHub</a><span aria-hidden="true"> · </span><a href="https://x.com/tylting" rel="me">X / Twitter</a></div>
       </footer>
     </div>
   </body>
