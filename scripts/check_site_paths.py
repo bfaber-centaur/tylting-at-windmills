@@ -126,7 +126,7 @@ for url in ("https://github.com/bubskee", "https://x.com/tylting", "/windmills/p
 assert 'href="https://x.com/tylting"' in (dist / "windmills/index.html").read_text(encoding="utf-8"), "Missing site-wide Twitter link"
 logo = dist / "windmills/img/github_logo.png"
 assert logo.is_file() and logo.stat().st_size == 10026, "Original consensus-knot logo missing or modified"
-assert logo.read_bytes().startswith(b"\\x89PNG\\r\\n\\x1a\\n"), "Logo is not a PNG"
+assert logo.read_bytes().startswith(bytes.fromhex("89504e470d0a1a0a")), "Logo is not a PNG"
 print("About portrait, three-sentence blurb, social links, and site footer verified.")
 
 print("Fresh HCTiGT article and image, Colab, canonical URL, RSS, and redirects verified.")
