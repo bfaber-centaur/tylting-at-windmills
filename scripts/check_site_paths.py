@@ -69,15 +69,60 @@ assert source_markdown.startswith("---\ntitle: \"The First Step\""), "Missing si
 assert "NASA / Public domain" in source_markdown, "Expected author's NASA image credit"
 assert "Cargo Cult Science" in source_markdown, "Article seems older than canonical source"
 import re
-footnotes = re.findall(r"^\[\^([A-Za-z0-9_-]+)\]:", source_markdown, re.MULTILINE)
-assert len(footnotes) >= 4, f"Expected current HCTiGT named notes, found {footnotes}"
-for label in footnotes:
-    assert f"[^{label}]" not in article, f"Footnote {label} not rendered"
-assert "data-footnotes" in article, "Missing rendered footnotes section"
-assert article.count("data-footnote-ref") >= len(footnotes), "Missing footnote references"
-assert article.count("data-footnote-backref") >= len(footnotes), "Missing footnote backlinks"
-assert article.count("<sup") >= len(footnotes), "Missing footnote superscripts"
-print(f"Footnotes: {len(footnotes)} linked references, definitions and back-links.")
+from urllib.parse import unquote
+
+# Validate *the actual manuscript*, not an expected count from an old draft.
+# Unused definitions are fine; every cited label must have a definition.
+source_body = source_markdown.split("\\n---\\n", 1)[1]
+defined_labels = re.findall(r"(?m)^\\[\\^([^\\]\\r\\n]+)\\]:", source_body)
+cited_labels = re.findall(r"\\[\\^([^\\]\\r\\n]+)\\](?!:)", source_body)
+assert len(defined_labels) == len(set(defined_labels)), "Duplicate footnote definitions"
+undefined = set(cited_labels) - set(defined_labels)
+assert not undefined, f"References without footnote definitions: {sorted(undefined)}"
+
+class FootnoteMarkup(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.refs = []
+        self.backrefs = []
+        self.ids = set()
+        self.has_section = False
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if attrs.get("id"):
+            self.ids.add(attrs["id"])
+        if tag == "section" and "data-footnotes" in attrs:
+            self.has_section = True
+        if tag == "a" and "data-footnote-ref" in attrs:
+            self.refs.append(attrs.get("href", ""))
+        if tag == "a" and "data-footnote-backref" in attrs:
+            self.backrefs.append(attrs.get("href", ""))
+
+markup = FootnoteMarkup()
+markup.feed(article)
+assert len(markup.refs) == len(cited_labels), (
+    f"HCTiGT cites {len(cited_labels)} footnotes {cited_labels}, but Astro "
+    f"rendered {len(markup.refs)} links. Check Markdown inside <details>."
+)
+if cited_labels:
+    assert markup.has_section, "Missing rendered footnotes section"
+    assert len(markup.backrefs) >= len(set(cited_labels)), "Missing return links"
+else:
+    assert not markup.has_section, "Unexpected footnotes section with no references"
+
+for url in markup.refs + markup.backrefs:
+    assert url.startswith("#") and unquote(url[1:]) in markup.ids, (
+        f"Footnote link points to a missing destination: {url}"
+    )
+for label in cited_labels:
+    assert f"[^{label}]" not in article, f"Literal unrendered footnote marker: {label}"
+
+print(
+    f"Footnotes: {len(cited_labels)} citations / {len(set(cited_labels))} "
+    f"distinct labels; {len(markup.refs)} linked references, "
+    f"{len(markup.backrefs)} back-links."
+)
 
 # Footnote presentation enhancement is bundled without replacing the endnotes.
 # Astro may inline small scripts into the page rather than emitting .js files.
