@@ -122,6 +122,20 @@ print(
     f"{len(markup.backrefs)} back-links."
 )
 
+# Native <details> should stay collapsible, and Markdown references inside
+# the block must become real links rather than remaining literal [^labels].
+source_details = re.findall(r"<details\b[^>]*>.*?</details>", source_body, flags=re.DOTALL | re.IGNORECASE)
+rendered_details = re.findall(r"<details\b[^>]*>.*?</details>", article, flags=re.DOTALL | re.IGNORECASE)
+assert len(rendered_details) == len(source_details), "Missing or unclosed <details> block in article HTML"
+for index, (source_block, rendered_block) in enumerate(zip(source_details, rendered_details), start=1):
+    expected = len(re.findall(r"\[\^([^\]]+)\](?!:)", source_block))
+    present = len(re.findall(r"<a\b[^>]*\bdata-footnote-ref\b", rendered_block))
+    assert "<summary" in rendered_block, f"Missing collapsible heading in <details> {index}"
+    assert present == expected, (
+        f"Inside <details> {index}: expected {expected} linked footnotes, found {present}"
+    )
+print(f"Collapsible sections: {len(rendered_details)} rendered with their inner footnotes.")
+
 # Footnote presentation enhancement is bundled without replacing the endnotes.
 # Astro may inline small scripts into the page rather than emitting .js files.
 # Inspect both generated page HTML and every emitted JS bundle.
